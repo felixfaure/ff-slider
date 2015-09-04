@@ -1,0 +1,32 @@
+{
+    "name": "ff-slider",
+    "version": "1.0",
+    "description": "Minimal slider zero dependency",
+    "main": "js/ff-slider.js",
+    "scripts": {
+        "uglify": "uglifyjs ./js/ff-slider.js -o ./js/ff-slider.min.js --comments -m -c",
+        "build": "npm run uglify"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/felixfaure/ff-slider.git"
+    },
+    "keywords": [
+        "slider",
+        "css",
+        "js",
+        "minimal",
+        "responsive",
+        "ff-slider",
+        "felixfaure"
+    ],
+    "author": "David Félix-Faure <contact@felixfaure.fr> (http://www.felixfaure.fr)",
+    "license": "MIT",
+    "bugs": {
+    "url": "https://github.com/felixfaure/ff-slider/issues"
+    },
+        "homepage": "https://github.com/felixfaure/ff-slider",
+        "devDependencies": {
+        "uglify-js": "^2.4.24"
+    }
+}
