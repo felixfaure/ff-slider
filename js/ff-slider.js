@@ -61,6 +61,11 @@
             addClass(this.items[this.idx], this.args.currentClass);
         }
 
+        //Update attr btn in start and fix bug when actualize navigator
+        this.btnPrev.removeAttribute('disabled');
+        this.btnNext.removeAttribute('disabled');
+        this.updateBtns();
+
         // Wrapped in timeout function so event can
         // be listened from outside at anytime
         var _this = this;
@@ -88,9 +93,9 @@
     // Reset all classes and attr added
     FS.removeAttrs = function () {
         removeClass(this.items[this.idx], this.args.currentClass);
-        removeClass($$(this.args.hidePreviousClass)[0], this.args.hidePreviousClass);
+        removeClass($$(this.args.hidePrevClass)[0], this.args.hidePrevClass);
         removeClass($$(this.args.hideNextClass)[0], this.args.hideNextClass);
-        removeClass($$(this.args.showPreviousClass)[0], this.args.showPreviousClass);
+        removeClass($$(this.args.showPrevClass)[0], this.args.showPrevClass);
         removeClass($$(this.args.showNextClass)[0], this.args.showNextClass);
 
         if (!this.btnPrev && !this.btnNext) { return; }
@@ -109,8 +114,8 @@
 
         this.removeAttrs();
 
-        addClass(this.items[this.idx], index > this.idx ? this.args.hidePreviousClass : this.args.hideNextClass);
-        addClass(this.items[index], this.args.currentClass + ' ' + (index > this.idx ? this.args.showNextClass : this.args.showPreviousClass));
+        addClass(this.items[this.idx], index > this.idx ? this.args.hidePrevClass : this.args.hideNextClass);
+        addClass(this.items[index], this.args.currentClass + ' ' + (index > this.idx ? this.args.showNextClass : this.args.showPrevClass));
 
         this.idx = index;
 
@@ -194,15 +199,7 @@
 
 
 
-    /**
-    * Helper functions
-    */
-
-    function $$(element) {
-        if (!element) { return; }
-        return document.querySelectorAll('.' + element);
-    }
-
+    //Helper functions
     function addClass(element, className) {
         if (!element) { return; }
         element.className = element.className.replace(/\s+$/gi, '') + ' ' + className;
@@ -211,6 +208,11 @@
     function removeClass(element, className) {
         if (!element) { return; }
         element.className = element.className.replace(className, '');
+    }
+
+    function $$(element) {
+        if (!element) { return; }
+        return document.querySelectorAll('.' + element);
     }
 
     function extend(origOptions, userOptions){

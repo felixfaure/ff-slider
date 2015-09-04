@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>ff-slider</title>
+        <meta name="author" content="David FELIX-FAURE - http://www.felix-faure.fr" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="../css/ff-slider.css">
+    </head>
+
+    <body>
+        <main id="main" class="main" role="main">
+            <div class="ffs">
+                <div class="ffs_inner">
+                    <div class="ffs_i ffs_i-current">-- 1 --</div>
+                    <div class="ffs_i">-- 2 --</div>
+                    <div class="ffs_i">-- 3 --</div>
+                    <div class="ffs_i">-- 4 --</div>
+                    <div class="ffs_i">-- 5 --</div>
+                </div>
+                <button class="ffs_prev">Prev</button>
+                <button class="ffs_next">Next</button>
+            </div>
+        </main>
+
+        <script src="../js/ff-slider.js"></script>
+        <script>
+            var slider = document.querySelector('.ffs');
+            var ffslider = new ffslider(slider, {infinite:false});
+        </script>
+    </body>
+</html>

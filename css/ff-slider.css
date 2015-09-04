@@ -1,0 +1,23 @@
+/* ff-slider.css */
+
+.ffs {
+    position: relative;
+}
+
+.ffs_inner {
+    position: relative;
+    overflow: hidden;
+}
+
+.ffs_i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    visibility: hidden;
+}
+
+.ffs_i-current {
+    position: relative;
+    visibility: visible;
+}
