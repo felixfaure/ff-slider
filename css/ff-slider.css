@@ -17,7 +17,7 @@
     visibility: hidden;
 }
 
-.ffs_i-current {
+.ffs_i.is-active {
     position: relative;
     visibility: visible;
 }

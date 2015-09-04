@@ -30,7 +30,7 @@
             btnPrev: 'ffs_prev',
             btnNext: 'ffs_next',
             items: 'ffs_i',
-            currentClass: 'ffs_i-current',
+            currentClass: 'is-active',
             showPrevClass: 'ffs_i-showPrev',
             showNextClass: 'ffs_i-showNext',
             hidePrevClass: 'ffs_i-hidePrev',
@@ -53,7 +53,7 @@
         this.addEvt();
 
         // For focus
-        this.$s.setAttribute('tabindex', -1);
+        if (this.args.keys) { this.$s.setAttribute('tabindex', -1); }
 
         // If there is no active item, start at 0
         if (this.idx < 0) {
@@ -83,9 +83,9 @@
     FS.updateBtns = function () {
         if (!this.btnPrev && !this.btnNext) { return; }
 
-        if (this.idx === this.nb && this.args.infinite !== true) {
+        if (this.idx === this.nb && !this.args.infinite) {
             this.btnNext.setAttribute('disabled', 'disabled');
-        } else if (this.idx === 0 && this.args.infinite !== true) {
+        } else if (this.idx === 0 && !this.args.infinite) {
             this.btnPrev.setAttribute('disabled', 'disabled');
         }
     };
