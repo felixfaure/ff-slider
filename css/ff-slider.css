@@ -25,8 +25,9 @@
 
 
 /* Fade */
-.ffs_i.is-active {
+.ffs-fade .ffs_i.is-active {
     opacity: 0;
+    -webkit-animation: fadeIn 450ms cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
     animation: fadeIn 450ms cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
 }
 
@@ -40,16 +41,6 @@
 }
 
 @-webkit-keyframes fadeIn {
-    100% {
-        opacity: 1;
-    }
-}
-@-moz-keyframes fadeIn {
-    100% {
-        opacity: 1;
-    }
-}
-@-ms-keyframes fadeIn {
     100% {
         opacity: 1;
     }
@@ -68,22 +59,22 @@
     animation: slideFromLeft 350ms 10ms linear both;
 }
 
-.Wallop-slide .ffs_i-showNext {
+.ffs-slide .ffs_i-showNext {
     -webkit-animation: slideFromRight 350ms 10ms linear both;
     animation: slideFromRight 350ms 10ms linear both;
 }
 
-.Wallop-slide .ffs_i-hidePrev,
-.Wallop-slide .ffs_i-hideNext {
+.ffs-slide .ffs_i-hidePrev,
+.ffs-slide .ffs_i-hideNext {
     visibility: visible;
 }
 
-.Wallop-slide .ffs_i-hidePrev {
+.ffs-slide .ffs_i-hidePrev {
     -webkit-animation: slideToLeft 350ms 10ms linear both;
     animation: slideToLeft 350ms 10ms linear both;
 }
 
-.Wallop-slide .ffs_i-hideNext {
+.ffs-slide .ffs_i-hideNext {
     -webkit-animation: slideToRight 350ms 10ms linear both;
     animation: slideToRight 350ms 10ms linear both;
 }
