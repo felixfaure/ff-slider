@@ -11,6 +11,9 @@
 
     'use strict';
 
+    //Array with all instances of sliders
+    var sliders = [];
+
     function ffslider(selector, options) {
         //Tests
         if (!selector) {
@@ -24,11 +27,14 @@
             }
         }
 
-        this.$s = selector;
+        var o = this;
 
-        this.args = {
+        //Default options
+        o.args = {
             btnPrev: 'ffs_prev',
             btnNext: 'ffs_next',
+            dots: 'ffs_dot',
+            dotCurrent: 'is-active',
             items: 'ffs_i',
             currentClass: 'is-active',
             showPrevClass: 'ffs_i-showPrev',
@@ -36,141 +42,164 @@
             hidePrevClass: 'ffs_i-hidePrev',
             hideNextClass: 'ffs_i-hideNext',
             infinite: true,
-            keys: true
+            keys: true,
+            idx: 0
         };
+        o.args = extend(o.args, options);
 
-        this.args = extend(this.args, options);
-        this.event = null;
+        // Vars
+        o.$s = selector;
+        o.event = null;
+        o.items = Array.prototype.slice.call(o.$s.querySelectorAll('.' + o.args.items));
+        o.nb = o.items.length - 1;
+        o.idx = o.args.idx;
+        o.btnPrev = o.$s.querySelector('.' + o.args.btnPrev);
+        o.btnNext = o.$s.querySelector('.' + o.args.btnNext);
+        o.dots = Array.prototype.slice.call(o.$s.querySelectorAll('.' + o.args.dots));
 
-        // "Global vars"
-        this.items = Array.prototype.slice.call(this.$s.querySelectorAll(' .' + this.args.items));
-        this.nb = this.items.length - 1; // otherwise starts from 1. weird?
-        this.idx = this.items.indexOf(this.$s.querySelector(' .' + this.args.currentClass));
-        this.btnPrev = this.$s.querySelector(' .' + this.args.btnPrev);
-        this.btnNext = this.$s.querySelector(' .' + this.args.btnNext);
+        //Init event and custom event
+        o.bindEvts();
+        o.addEvt();
 
-        this.bindEvts();
-        this.addEvt();
+        // For focus needing for navigation with keys
+        if (o.args.keys) { o.$s.setAttribute('tabindex', -1); }
 
-        // For focus
-        if (this.args.keys) { this.$s.setAttribute('tabindex', -1); }
+        // Class for active slide
+        addClass(o.items[o.idx], o.args.currentClass);
 
-        // If there is no active item, start at 0
-        if (this.idx < 0) {
-            this.idx = 0;
-            addClass(this.items[this.idx], this.args.currentClass);
+        //Class for active dot
+        if (o.dots) { addClass(o.dots[o.idx], o.args.dotCurrent); }
+
+        //Update attr btn in start and fix bug when navigator is actualized
+        if (o.btnPrev || o.btnNext) {
+            o.btnPrev.removeAttribute('disabled');
+            o.btnNext.removeAttribute('disabled');
+            o.updateBtns();
         }
-
-        //Update attr btn in start and fix bug when actualize navigator
-        this.btnPrev.removeAttribute('disabled');
-        this.btnNext.removeAttribute('disabled');
-        this.updateBtns();
 
         // Wrapped in timeout function so event can
         // be listened from outside at anytime
-        var _this = this;
         setTimeout(function() {
-            _this.event.detail.current = _this.idx;
-            _this.$s.dispatchEvent(_this.event);
+            o.event.detail.current = o.idx;
+            o.$s.dispatchEvent(o.event);
         }, 0);
     }
-
-    var sliders = [];
 
     var FS = ffslider.prototype;
 
     // Update prev/next disabled attribute
     FS.updateBtns = function () {
-        if (!this.btnPrev && !this.btnNext) { return; }
+        var o = this;
 
-        if (this.idx === this.nb && !this.args.infinite) {
-            this.btnNext.setAttribute('disabled', 'disabled');
-        } else if (this.idx === 0 && !this.args.infinite) {
-            this.btnPrev.setAttribute('disabled', 'disabled');
+        if (!o.btnPrev && !o.btnNext) { return; }
+
+        if (o.idx === o.nb && !o.args.infinite) {
+            o.btnNext.setAttribute('disabled', 'disabled');
+        } else if (o.idx === 0 && !o.args.infinite) {
+            o.btnPrev.setAttribute('disabled', 'disabled');
         }
     };
 
     // Reset all classes and attr added
     FS.removeAttrs = function () {
-        removeClass(this.items[this.idx], this.args.currentClass);
-        removeClass($$(this.args.hidePrevClass)[0], this.args.hidePrevClass);
-        removeClass($$(this.args.hideNextClass)[0], this.args.hideNextClass);
-        removeClass($$(this.args.showPrevClass)[0], this.args.showPrevClass);
-        removeClass($$(this.args.showNextClass)[0], this.args.showNextClass);
+        var o = this;
 
-        if (!this.btnPrev && !this.btnNext) { return; }
+        removeClass(o.items[o.idx], o.args.currentClass);
+        removeClass($$(o.args.hidePrevClass)[0], o.args.hidePrevClass);
+        removeClass($$(o.args.hideNextClass)[0], o.args.hideNextClass);
+        removeClass($$(o.args.showPrevClass)[0], o.args.showPrevClass);
+        removeClass($$(o.args.showNextClass)[0], o.args.showNextClass);
 
-        this.btnPrev.removeAttribute('disabled');
-        this.btnNext.removeAttribute('disabled');
+        if (o.btnPrev || o.btnNext) {
+            o.btnPrev.removeAttribute('disabled');
+            o.btnNext.removeAttribute('disabled');
+        }
+        if (o.dots) { removeClass($$(o.args.dotCurrent)[0], o.args.dotCurrent); }
     };
 
     // Method to add classes to the right elements depending on the index passed
     FS.goTo = function (index) {
-        if (index === this.idx) { return; }
+        var o = this;
+
+        if (index === o.idx) { return; }
 
         // Check if it's infinite and if so, change index to be last item when clicking previous on first item
-        if (this.args.infinite && index === -1) { index = this.nb - 1; }
-        else if (index > this.nb || index < 0) { return; }
+        if (o.args.infinite && index === -1) { index = o.nb - 1; }
+        else if (index > o.nb || index < 0) { return; }
 
-        this.removeAttrs();
+        o.removeAttrs();
 
-        addClass(this.items[this.idx], index > this.idx ? this.args.hidePrevClass : this.args.hideNextClass);
-        addClass(this.items[index], this.args.currentClass + ' ' + (index > this.idx ? this.args.showNextClass : this.args.showPrevClass));
+        addClass(o.items[o.idx], index > o.idx ? o.args.hidePrevClass : o.args.hideNextClass);
+        addClass(o.items[index], o.args.currentClass + ' ' + (index > o.idx ? o.args.showNextClass : o.args.showPrevClass));
+        if (o.dots) { addClass(o.dots[index], o.args.dotCurrent); }
 
-        this.idx = index;
+        o.idx = index;
 
-        this.updateBtns();
+        o.updateBtns();
 
-        this.event.detail.current = this.idx;
-        this.$s.dispatchEvent(this.event);
+        o.event.detail.current = o.idx;
+        o.$s.dispatchEvent(o.event);
     };
 
     // Previous item handler
     FS.prev = function () {
-        if (this.args.infinite && this.idx === 0) {
-            this.goTo(this.nb);
+        var o = this;
+
+        if (o.args.infinite && o.idx === 0) {
+            o.goTo(o.nb);
         } else {
-            this.goTo(this.idx - 1);
+            o.goTo(o.idx - 1);
         }
     };
 
     // Next item handler
     FS.next = function () {
-        if (this.idx >= this.nb && this.args.infinite) {
-            this.goTo(0);
+        var o = this;
+
+        if (o.idx >= o.nb && o.args.infinite) {
+            o.goTo(0);
         } else {
-            this.goTo(this.idx + 1);
+            o.goTo(o.idx + 1);
         }
     };
 
     // Attach events handlers
     FS.bindEvts = function () {
-        sliders.push(this.$s);
+        var o = this;
 
-        var _this = this;
+        //Add the new slider in the array which list sliders
+        sliders.push(o.$s);
 
-        if (this.btnPrev) {
-            this.btnPrev.addEventListener('click', function (event) {
+        if (o.btnPrev) {
+            o.btnPrev.addEventListener('click', function (event) {
                 event.preventDefault();
-                _this.prev();
+                o.prev();
             });
         }
 
-        if (this.btnNext) {
-            this.btnNext.addEventListener('click', function (event) {
+        if (o.btnNext) {
+            o.btnNext.addEventListener('click', function (event) {
                 event.preventDefault();
-                _this.next();
+                o.next();
             });
         }
 
-        if(this.args.keys) {
-            this.$s.onkeydown = function(e) {
+        if(o.dots) {
+            o.dots.forEach(function (dot, idx) {
+                dot.addEventListener('click', function() {
+                    o.goTo(idx);
+                });
+            });
+        }
+
+        if(o.args.keys) {
+            o.$s.onkeydown = function(e) {
                 switch (e.keyCode) {
                     case 37:
-                        _this.prev();
+                        o.prev();
                         break;
                     case 39:
-                        _this.next();
+                        o.next();
                         break;
                 }
             };
@@ -179,18 +208,19 @@
 
     // Method so it is nicer for the user to use custom events
     FS.on = function (eventName, callback) {
-        this.$s.addEventListener(eventName, function(event) {
+        var o = this;
+        o.$s.addEventListener(eventName, function(event) {
             return callback(event);
         }, false);
     };
 
     // Create custom Event
     FS.addEvt = function () {
-        var _this = this;
-        this.event = new CustomEvent('change', {
+        var o = this;
+        o.event = new CustomEvent('change', {
             detail: {
-                slider: _this.$s,
-                current: Number(_this.idx)
+                slider: o.$s,
+                current: Number(o.idx)
             },
             bubbles: true,
             cancelable: true
@@ -233,7 +263,7 @@
     CustomEvent.prototype = window.CustomEvent.prototype;
     window.CustomEvent = CustomEvent;
 
-    // Exports to multiple environments
+    // Exports in global environment
     global['ffslider'] = ffslider;
 
 }(this));

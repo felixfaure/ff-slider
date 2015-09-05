@@ -21,13 +21,20 @@
                 </div>
                 <button class="ffs_prev">Prev</button>
                 <button class="ffs_next">Next</button>
+                <ul>
+                    <li><button class="ffs_dot">1</button></li>
+                    <li><button class="ffs_dot">2</button></li>
+                    <li><button class="ffs_dot">3</button></li>
+                    <li><button class="ffs_dot">4</button></li>
+                    <li><button class="ffs_dot">5</button></li>
+                </ul>
             </div>
         </main>
 
         <script src="../js/ff-slider.js"></script>
         <script>
             var slider = document.querySelector('.ffs');
-            var ffslider = new ffslider(slider);
+            var ffslider = new ffslider(slider, {infinite:false, keys:false});
         </script>
     </body>
 </html>
