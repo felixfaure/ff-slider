@@ -71,11 +71,9 @@
         if (o.dots) { addClass(o.dots[o.idx], o.args.dotCurrent); }
 
         //Update attr btn in start and fix bug when navigator is actualized
-        if (o.btnPrev || o.btnNext) {
-            o.btnPrev.removeAttribute('disabled');
-            o.btnNext.removeAttribute('disabled');
-            o.updateBtns();
-        }
+        if (o.btnPrev) o.btnPrev.removeAttribute('disabled');
+        if (o.btnNext) o.btnNext.removeAttribute('disabled');
+        if (o.btnPrev || o.btnNext) o.updateBtns();
 
         // Wrapped in timeout function so event can
         // be listened from outside at anytime
@@ -110,10 +108,9 @@
         removeClass($$(o.args.showPrevClass)[0], o.args.showPrevClass);
         removeClass($$(o.args.showNextClass)[0], o.args.showNextClass);
 
-        if (o.btnPrev || o.btnNext) {
-            o.btnPrev.removeAttribute('disabled');
-            o.btnNext.removeAttribute('disabled');
-        }
+        if (o.btnPrev) o.btnPrev.removeAttribute('disabled');
+        if (o.btnNext) o.btnNext.removeAttribute('disabled');
+
         if (o.dots) { removeClass($$(o.args.dotCurrent)[0], o.args.dotCurrent); }
     };
 
@@ -264,6 +261,6 @@
     window.CustomEvent = CustomEvent;
 
     // Exports in global environment
-    global['ffslider'] = ffslider;
+    global.ffslider = ffslider;
 
 }(this));
