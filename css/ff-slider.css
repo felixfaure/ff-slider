@@ -1,146 +1,141 @@
 /* Styles de base */
 .ffs {
-    position: relative;
+  position: relative;
 }
 
 .ffs_inner {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
 .ffs_i {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  visibility: hidden;
 }
 
 .ffs_i.is-active {
-    position: relative;
-    visibility: visible;
+  position: relative;
+  visibility: visible;
 }
 
 
+/* the 10ms animation-delay fixed some weird rendering issues with iPhone */
 
 /* Fade */
-.ffs-fade .ffs_i.is-active {
-    opacity: 0;
-    -webkit-animation: fadeIn 450ms cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
-    animation: fadeIn 450ms cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
-}
-
 .ffs-fade .ffs_i-hidePrev,
 .ffs-fade .ffs_i-hideNext {
-    visibility: visible;
+  visibility: visible;
+  animation: fadeOut 450ms cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
 }
-
-.ffs-fade .ffs_i-hideNext {
-    z-index: -1;
+.ffs-fade  .ffs_i-hidePrev,
+.ffs-fade  .ffs_i-hideNext {
+  z-index: 2;
 }
-
-@-webkit-keyframes fadeIn {
-    100% {
-        opacity: 1;
-    }
+.ffs-fade  .ffs_i-showPrev,
+.ffs-fade  .ffs_i-showNext {
+  z-index: 1;
 }
-@keyframes fadeIn {
-    100% {
-        opacity: 1;
-    }
+@keyframes fadeOut {
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
-
 
 
 /* Slide */
 .ffs-slide .ffs_i-showPrev {
-    -webkit-animation: slideFromLeft 350ms 10ms linear both;
-    animation: slideFromLeft 350ms 10ms linear both;
+  animation: slideFromLeft 350ms 10ms linear both;
 }
-
 .ffs-slide .ffs_i-showNext {
-    -webkit-animation: slideFromRight 350ms 10ms linear both;
-    animation: slideFromRight 350ms 10ms linear both;
+  animation: slideFromRight 350ms 10ms linear both;
 }
-
 .ffs-slide .ffs_i-hidePrev,
 .ffs-slide .ffs_i-hideNext {
-    visibility: visible;
+  visibility: visible;
 }
-
 .ffs-slide .ffs_i-hidePrev {
-    -webkit-animation: slideToLeft 350ms 10ms linear both;
-    animation: slideToLeft 350ms 10ms linear both;
+  animation: slideToLeft 350ms 10ms linear both;
 }
-
 .ffs-slide .ffs_i-hideNext {
-    -webkit-animation: slideToRight 350ms 10ms linear both;
-    animation: slideToRight 350ms 10ms linear both;
+  animation: slideToRight 350ms 10ms linear both;
 }
-
-@-webkit-keyframes slideFromLeft {
-    0% {
-        -webkit-transform: translate3d(-100%, 0, 0);
-        transform: translate3d(-100%, 0, 0);
-    }
-}
-
 @keyframes slideFromLeft {
-    0% {
-        -webkit-transform: translate3d(-100%, 0, 0);
-        transform: translate3d(-100%, 0, 0);
-    }
-}
-@-webkit-keyframes slideFromRight {
-    0% {
-        -webkit-transform: translate3d(100%, 0, 0);
-        transform: translate3d(100%, 0, 0);
-    }
+  0% {
+    transform: translate3d(-100%, 0, 0);
+  }
 }
 @keyframes slideFromRight {
-    0% {
-        -webkit-transform: translate3d(100%, 0, 0);
-        transform: translate3d(100%, 0, 0);
-    }
-}
-@-webkit-keyframes slideToLeft {
-    99% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        -webkit-transform: translate3d(-100%, 0, 0);
-        transform: translate3d(-100%, 0, 0);
-    }
+  0% {
+    transform: translate3d(100%, 0, 0);
+  }
 }
 @keyframes slideToLeft {
-    99% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        -webkit-transform: translate3d(-100%, 0, 0);
-        transform: translate3d(-100%, 0, 0);
-    }
-}
-@-webkit-keyframes slideToRight {
-    99% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        -webkit-transform: translate3d(100%, 0, 0);
-        transform: translate3d(100%, 0, 0);
-    }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
 }
 @keyframes slideToRight {
-    99% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        -webkit-transform: translate3d(100%, 0, 0);
-        transform: translate3d(100%, 0, 0);
-    }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+
+/* Slide vertical */
+.ffs-slideV .ffs_i-showNext {
+  animation: slideFromTop 350ms 10ms linear both;
+}
+.ffs-slideV .ffs_i-showPrev {
+  animation: slideFromBottom 350ms 10ms linear both;
+}
+.ffs-slideV .ffs_i-hidePrev,
+.ffs-slideV .ffs_i-hideNext {
+  visibility: visible;
+}
+.ffs-slideV .ffs_i-hidePrev {
+  animation: slideToBottom 350ms 10ms linear both;
+}
+.ffs-slideV .ffs_i-hideNext {
+  animation: slideToTop 350ms 10ms linear both;
+}
+@keyframes slideFromTop {
+  0% {
+    transform: translate3d(0, -100%, 0);
+  }
+}
+@keyframes slideFromBottom {
+  0% {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes slideToTop {
+  99% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+}
+@keyframes slideToBottom {
+  99% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
 }
