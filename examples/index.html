@@ -1,40 +1,220 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8">
-        <title>ff-slider</title>
-        <meta name="author" content="David FELIX-FAURE - http://www.felix-faure.fr" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8">
+    <title>ff-slider</title>
+    <meta name="author" content="David FELIX-FAURE - http://www.felix-faure.fr" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="../css/ff-slider.css">
-    </head>
+    <link rel="stylesheet" href="../css/ff-slider.css">
+    <style>
+      html {
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+      }
 
-    <body>
-        <main id="main" class="main" role="main">
-            <div class="ffs ffs-slide">
-                <div class="ffs_inner">
-                    <div class="ffs_i is-active">-- 1 --</div>
-                    <div class="ffs_i">-- 2 --</div>
-                    <div class="ffs_i">-- 3 --</div>
-                    <div class="ffs_i">-- 4 --</div>
-                    <div class="ffs_i">-- 5 --</div>
-                </div>
-                <button class="ffs_prev">Prev</button>
-                <button class="ffs_next">Next</button>
-                <ul>
-                    <li><button class="ffs_dot">1</button></li>
-                    <li><button class="ffs_dot">2</button></li>
-                    <li><button class="ffs_dot">3</button></li>
-                    <li><button class="ffs_dot">4</button></li>
-                    <li><button class="ffs_dot">5</button></li>
-                </ul>
-            </div>
-        </main>
+      *,
+      *:before,
+      *:after {
+        -webkit-box-sizing: inherit;
+           -moz-box-sizing: inherit;
+                box-sizing: inherit;
+      }
 
-        <script src="../js/ff-slider.js"></script>
-        <script>
-            var slider = document.querySelector('.ffs');
-            var ffslider = new ffslider(slider, {infinite:false});
-        </script>
-    </body>
+      .main {
+        max-width: 900px;
+        margin: auto;
+        padding: 2em;
+      }
+      .ffs {
+        background-color: #eee;
+      }
+      .ffs_i {
+        /*height: 100px;*/
+        padding: 2em;
+        text-align: center;
+      }
+      .ffs-slideV .ffs_i {
+        min-height: 300px;
+      }
+      .ffs_i:nth-child(1) {
+        background-color: #D1F2A5;
+      }
+      .ffs_i:nth-child(2) {
+        background-color: #EFFAB4;
+      }
+      .ffs_i:nth-child(3) {
+        background-color: #FFC48C;
+      }
+      .ffs_i:nth-child(4) {
+        background-color: #FF9F80;
+      }
+      .ffs_i:nth-child(5) {
+        background-color: #F56991;
+      }
+
+      .ffs_prev,
+      .ffs_next,
+      .ffs_dots {
+        z-index: 10;
+      }
+
+      .ffs_prev,
+      .ffs_next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .ffs_prev {
+        left: 0;
+      }
+      .ffs_next {
+        right: 0;
+      }
+      .ffs_dots {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        text-align: center;
+        list-style: none;
+      }
+      .ffs_dots li {
+        display: inline-block;
+      }
+      .ffs_dot.is-active {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main id="main" class="main" role="main">
+      <h2>Slide (+ autoplay)</h2>
+      <div class="ffs ffs-slide">
+        <div class="ffs_inner">
+          <div class="ffs_i is-active">
+            <h3>-- 1 --</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 2 --</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 3 --</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 4 --</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 5 --</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+        </div>
+        <button class="ffs_prev">Prev</button>
+        <button class="ffs_next">Next</button>
+        <ul class="ffs_dots">
+          <li><button class="ffs_dot">1</button></li>
+          <li><button class="ffs_dot">2</button></li>
+          <li><button class="ffs_dot">3</button></li>
+          <li><button class="ffs_dot">4</button></li>
+          <li><button class="ffs_dot">5</button></li>
+        </ul>
+      </div>
+
+      <h2>Fade</h2>
+      <div class="ffs ffs-fade">
+        <div class="ffs_inner">
+          <div class="ffs_i is-active">
+            <h3>-- 1 --</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 2 --</h3>
+            <p>Ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 3 --</h3>
+            <p>Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 4 --</h3>
+            <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 5 --</h3>
+            <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          </div>
+        </div>
+        <button class="ffs_prev">Prev</button>
+        <button class="ffs_next">Next</button>
+        <ul class="ffs_dots">
+          <li><button class="ffs_dot">1</button></li>
+          <li><button class="ffs_dot">2</button></li>
+          <li><button class="ffs_dot">3</button></li>
+          <li><button class="ffs_dot">4</button></li>
+          <li><button class="ffs_dot">5</button></li>
+        </ul>
+      </div>
+
+      <h2>Slide vertical</h2>
+      <div class="ffs ffs-slideV">
+        <div class="ffs_inner">
+          <div class="ffs_i is-active">
+            <h3>-- 1 --</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 2 --</h3>
+            <p>Ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 3 --</h3>
+            <p>Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 4 --</h3>
+            <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+          <div class="ffs_i">
+            <h3>-- 5 --</h3>
+            <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          </div>
+        </div>
+        <button class="ffs_prev">Prev</button>
+        <button class="ffs_next">Next</button>
+      </div>
+    </main>
+
+    <script src="../js/ff-slider.js"></script>
+    <script>
+      var sliders = document.querySelectorAll('.ffs');
+      var slidersArray = [];
+      sliders.forEach(function(el, idx) {
+        slidersArray.push( new ffslider(el, {infinite:idx === 0}) );
+        var sliders_items = el.querySelectorAll('.ffs_i');
+        sliders_items.forEach(function(slide, k) {
+          slide.addEventListener('click',function(e) {
+            slidersArray[idx].next();
+          }, false);
+        });
+      });
+      slidersArray.forEach(function(el, idx) {
+        el.on('change',function(e) {
+          console.log(e.detail);
+        });
+      });
+      setInterval(function() {
+        slidersArray[0].next();
+      },2000);
+    </script>
+  </body>
 </html>
